@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="autoIncrement" value="true"/>
+
+    <!--
+        Added the entity Transactions.
+    -->
+    <changeSet id="20191006235338-1" author="jhipster">
+        <createTable tableName="transaction">
+            <column name="tran_id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="created_date" type="date">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="amount" type="double">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="from_account_account_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="to_account_account_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="customer_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="20191006235338-1-relations" author="jhipster">
+
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+
+    <changeSet id="20191006235338-1-data" author="jhipster">
+        <loadData
+                  file="config/liquibase/data/transaction.csv"
+                  separator=";"
+                  tableName="transaction">
+            <column name="tran_id" type="numeric"/>
+            <column name="created_date" type="date"/>
+            <column name="type" type="string"/>
+            <column name="amount" type="numeric"/>
+            <column name="from_account_account_id" type="numeric"/>
+            <column name="to_account_account_id" type="numeric"/>
+            <column name="customer_id" type="numeric"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>

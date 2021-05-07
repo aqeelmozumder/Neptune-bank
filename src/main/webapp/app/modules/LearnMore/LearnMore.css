@@ -1,0 +1,67 @@
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+@font-face {
+  font-family: 'Harlow Solid';
+  src: url(fonts/HarlowSolidRegular.ttf);
+}
+.strong {
+  font-weight: bold;
+}
+.home-desc {
+  display: inline-block;
+  width: 100%;
+  margin: 30px 0;
+}
+.titleMain {
+  background-color: #f78229;
+  display: inline-block;
+  width: 100%;
+  padding: 15px;
+  color: #fff;
+}
+.titleMain h2 {
+  font-size: 36px;
+  font-weight: bold;
+  font-family: 'Arial';
+  line-height: 1.5;
+}
+.titleMain span {
+  font-size: 14px;
+}
+.light-up-saving p {
+  font-family: 'Harlow Solid';
+  font-size: 18px;
+  display: block;
+}
+.percent {
+  font-size: 72px;
+  color: #f6d014;
+  padding: 15px;
+  border: 1px solid #333;
+  box-sizing: border-box;
+  line-height: 1;
+  margin: 0 auto;
+  text-align: center;
+  display: inline-block;
+  font-family: Calibri;
+  font-weight: bold;
+}
+.light-up-saving {
+  margin: 15px 0;
+  margin-top: 150px;
+}
+.other-content {
+  font-family: Calibri;
+  font-size: 16px;
+  /* margin-top: 70px; */
+}
+.center-align {
+  display: block;
+  text-align: center;
+}
+.MainMarging {
+  margin: 20px 50px;
+}

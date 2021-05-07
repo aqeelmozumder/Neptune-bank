@@ -1,0 +1,16 @@
+version: '2'
+services:
+  neptunebank-app:
+    image: neptunebankapp
+    environment:
+      - _JAVA_OPTIONS=-Xmx512m -Xms256m
+      - SPRING_PROFILES_ACTIVE=prod,swagger
+      - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://neptunebank-mysql:3306/neptune?useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+      - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
+    ports:
+      - 4080:4080
+  neptunebank-mysql:
+    extends:
+      file: mysql.yml
+      service: neptunebank-mysql

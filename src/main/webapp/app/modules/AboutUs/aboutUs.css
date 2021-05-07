@@ -1,0 +1,81 @@
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+@font-face {
+  font-family: 'AgendaBold';
+  src: url(fonts/agenda-bold.ttf);
+}
+p {
+  font-family: 'Arial';
+}
+.strong {
+  font-weight: bold;
+}
+.sheader {
+  font-size: 30px;
+  font-weight: bold;
+  border-bottom: 1px solid #bc0707;
+  display: inline-block;
+  color: #bc0707;
+}
+.abt-us-desc {
+  font-size: 14px;
+}
+.exec-team {
+  display: inline-block;
+  width: 100%;
+  margin-top: 50px;
+}
+.exec-team-head {
+  font-size: 30px;
+  font-family: 'AgendaBold';
+  color: #bc0707;
+  margin-bottom: 20px;
+}
+.display-table > div span:first-child {
+  float: left;
+  width: 160px;
+  border: 1px solid #bc0707;
+  margin: -1px;
+  padding: 10px;
+  text-decoration: underline;
+  color: #999;
+}
+.display-table > div span:nth-child(2) {
+  width: calc(100% - 160px);
+  border: 1px solid #bc0707;
+  margin: -1px;
+  padding: 10px;
+  float: left;
+}
+.display-table > div {
+  float: left;
+  width: 100%;
+  margin-bottom: 1px;
+}
+.vis-val-head {
+  font-size: 30px;
+  font-family: 'AgendaBold';
+  margin-bottom: 20px;
+}
+.vis-val-pts > span {
+  font-size: 18px;
+  color: #bc0707;
+  border-bottom: 1px solid #bc0707;
+  font-weight: bold;
+}
+.vis-val-head {
+  font-size: 30px;
+  font-family: 'AgendaBold';
+  color: #bc0707;
+}
+.vis-val {
+  display: inline-block;
+  width: 100%;
+  margin: 50px 0;
+}
+.MainMarging {
+  margin: 20px 50px;
+}
