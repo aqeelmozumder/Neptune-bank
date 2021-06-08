@@ -12,8 +12,12 @@ pipeline {
 				git branch:'hexuan',
 				credentialsId:'73d0a3b3-226d-4ee8-98f0-427e37abcb6f',
 				url:'git@git.engr.uvic.ca:seng426/2021/teams/team-13/neptunebank.git'
-
 			}
 		}
+		stage('List Directories') {
+			steps {
+               	sh 'ls -ltr'
+            }
+        }
     }
 }
