@@ -41,6 +41,7 @@ pipeline {
 					}
 				}
 				stage('Testing'){
+					sleep(time 1, unit:"MINUTES")
 					steps{
 						sh './mvnw verify'
 					}
