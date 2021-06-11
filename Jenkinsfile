@@ -2,11 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
-            steps {
-                echo 'Hello World'
-            }
-        }
+
 		stage('pull Code') {
 			steps {
 				git branch:'hexuan',
@@ -14,26 +10,18 @@ pipeline {
 				url:'git@git.engr.uvic.ca:seng426/2021/teams/team-13/neptunebank.git'
 			}
 		}
-		stage('List Directories') {
-			steps {
-               	sh 'ls -ltr'
-            }
-        }
+
         stage('Install Dependencies') {
         	steps {
         		sh 'npm install'
         	}
         }
-        stage('Deployment') {
-        	steps {
-        		sh './mvnw clean'
-        		sh './mvnw -Pdev'
-        	}
-        }
-        stage('Testing') {
-        	steps {
-        		sh './mvnw verify'
-        	}
-        }
+        stage('Build') {
+			steps {
+				sh 'make'
+				archiveArtifacts artifacts: 'target/neptunebank-app*.jar', fingerprint: true
+			}
+		}
+
     }
 }
