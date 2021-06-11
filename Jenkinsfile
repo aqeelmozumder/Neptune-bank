@@ -18,8 +18,8 @@ pipeline {
         }
         stage('Build') {
 			steps {
-				sh './mvnw -Pprod clean package'
-				sh 'java -jar target/neptunebank-app*.jar'
+				sh './mvnw clean install'
+
 			}
 		}
 
