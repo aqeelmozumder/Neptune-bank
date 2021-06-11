@@ -37,8 +37,8 @@ pipeline {
 				parallel {
 					stage("Deployment"){
 						steps{
-							sh './mvnw clean
-                                ./mvnw -Pdev'
+							sh './mvnw clean'
+                            sh  './mvnw -Pdev'
 						}
 					}
 					stage('Testing'){
