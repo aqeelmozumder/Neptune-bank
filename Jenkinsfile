@@ -46,22 +46,13 @@ pipeline {
 						sh 'sleep 120'
 						sh './mvnw verify'
 						catchError {
-							sh 'exit 0'
+							sh 'exit 1'
 						}
 					}
 				}
 			}
 		}
 
-		stage('Finsh') {
-			when {
-				expression {
-					TestResult == 'false'
-				}
-			}
-			steps {
-				sh 'exit 0'
-			}
-		}
+		
     }
 }
