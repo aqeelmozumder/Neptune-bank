@@ -24,5 +24,16 @@ pipeline {
         		sh 'npm install'
         	}
         }
+        stage('Deployment') {
+        	steps {
+        		sh './mvnw clean'
+        		sh './mvnw -Pdev'
+        	}
+        }
+        stage('Testing') {
+        	steps {
+        		sh './mvnw verify'
+        	}
+        }
     }
 }
