@@ -42,29 +42,29 @@ pipeline {
 						sh './mvnw clean'
 						sh  './mvnw -Pdev'
 					}
-
-					when {
-						expression {
-							TestResult == 'false'
-						}
-					}
-					steps {
-						sh 'exit 0'
-					}
-
 				}
 				stage('Testing'){
 					steps{
-						try {
-							sh 'sleep 120'
-							sh './mvnw verify'
-						} catch (Exception err) {
+						sh 'sleep 120'
+						sh './mvnw verify'
+						catchError {
 							TestResult = 'false'
 						}
 
 						echo "TestResult: ${TestResult}"
 					}
 				}
+			}
+		}
+
+		stage('Finsh') {
+			when {
+				expression {
+					TestResult == 'false'
+				}
+			}
+			steps {
+				sh 'exit 0'
 			}
 		}
     }
