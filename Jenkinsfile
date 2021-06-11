@@ -1,9 +1,7 @@
 pipeline {
     agent any
 
-	environment {
-		TestResult = 'true'
-	}
+
 
     stages {
 		stage('pull Code') {
@@ -47,8 +45,8 @@ pipeline {
 					steps{
 						sh 'sleep 120'
 						sh './mvnw verify'
-						catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-							TestResult = 'false'
+						catchError {
+							sh 'exit 0'
 						}
 					}
 				}
