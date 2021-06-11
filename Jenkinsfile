@@ -1,8 +1,11 @@
 pipeline {
     agent any
 
-    stages {
+	environment {
+		TestResult = 'true'
+	}
 
+    stages {
 		stage('pull Code') {
 			steps {
 				git branch:'hexuan',
@@ -39,11 +42,27 @@ pipeline {
 						sh './mvnw clean'
 						sh  './mvnw -Pdev'
 					}
+
+					when {
+						expression {
+							TestResult == 'false'
+						}
+					}
+					steps {
+						sh 'exit 0'
+					}
+
 				}
 				stage('Testing'){
 					steps{
-						sh 'sleep 120'
-						sh './mvnw verify'
+						try {
+							sh 'sleep 120'
+							sh './mvnw verify'
+						} catch (Exception err) {
+							TestResult = 'false'
+						}
+
+						echo "TestResult: ${TestResult}"
 					}
 				}
 			}
