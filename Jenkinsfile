@@ -31,5 +31,23 @@ pipeline {
                       -Dsonar.login=50a951d809a1c3674cf82b98d37d0b4d78805af4'
 			}
 		}
+
+		stage('Deployment and Testing') {
+			steps {
+				parallel {
+					stage("Deployment"){
+						steps{
+							sh './mvnw clean
+                                ./mvnw -Pdev'
+						}
+					}
+					stage('Testing'){
+						steps{
+							sh './mvnw verify'
+						}
+					}
+				}
+			}
+		}
     }
 }
