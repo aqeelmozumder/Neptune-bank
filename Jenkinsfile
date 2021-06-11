@@ -19,8 +19,7 @@ pipeline {
         stage('Build') {
 			steps {
 				sh './mvnw -Pprod clean package'
-				sh 'make'
-				archiveArtifacts artifacts: 'target/neptunebank-app*.jar', fingerprint: true
+				sh 'java -jar target/neptunebank-app*.jar'
 			}
 		}
 
