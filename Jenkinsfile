@@ -33,18 +33,16 @@ pipeline {
 		}
 
 		stage('Deployment and Testing') {
-			steps {
-				parallel {
-					stage("Deployment"){
-						steps{
-							sh './mvnw clean'
-                            sh  './mvnw -Pdev'
-						}
+			parallel {
+				stage("Deployment"){
+					steps{
+						sh './mvnw clean'
+						sh  './mvnw -Pdev'
 					}
-					stage('Testing'){
-						steps{
-							sh './mvnw verify'
-						}
+				}
+				stage('Testing'){
+					steps{
+						sh './mvnw verify'
 					}
 				}
 			}
