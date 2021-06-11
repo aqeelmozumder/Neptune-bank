@@ -47,11 +47,9 @@ pipeline {
 					steps{
 						sh 'sleep 120'
 						sh './mvnw verify'
-						catchError {
+						catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
 							TestResult = 'false'
 						}
-
-						echo "TestResult: ${TestResult}"
 					}
 				}
 			}
