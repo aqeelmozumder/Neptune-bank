@@ -28,7 +28,7 @@ pipeline {
 				sh './mvnw sonar:sonar \
                       -Dsonar.projectKey=team-13 \
                       -Dsonar.host.url=https://sonarqube.seng.uvic.ca \
-                      -Dsonar.login=39b77db30b6939e53f3f7c1bd2ff34697be3681e'
+                      -Dsonar.login=50a951d809a1c3674cf82b98d37d0b4d78805af4'
 			}
 		}
     }
