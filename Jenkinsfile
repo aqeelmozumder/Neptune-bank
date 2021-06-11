@@ -16,12 +16,20 @@ pipeline {
         		sh 'npm install'
         	}
         }
+
         stage('Build') {
 			steps {
 				sh './mvnw clean package'
-
 			}
 		}
 
+		stage('SonarQube Scan') {
+			steps {
+				sh './mvnw sonar:sonar \
+                      -Dsonar.projectKey=team-13 \
+                      -Dsonar.host.url=https://sonarqube.seng.uvic.ca \
+                      -Dsonar.login=39b77db30b6939e53f3f7c1bd2ff34697be3681e'
+			}
+		}
     }
 }
