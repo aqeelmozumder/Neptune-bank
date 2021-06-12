@@ -41,14 +41,14 @@ pipeline {
 				}
 				stage('Testing'){
 					steps{
-						sh 'sleep 120'
-						sh './mvnw verify'
+
 						script {
 							try {
-								
+								sh 'sleep 120'
+                                sh './mvnw verify'
 							}
 							catch (all) {
-								echo 'Hello Word'
+								echo 'Hello Word_11111111111111'
 							}
 						}
 					}
