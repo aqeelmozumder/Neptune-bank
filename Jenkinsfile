@@ -35,8 +35,10 @@ pipeline {
 			parallel {
 				stage("Deployment"){
 					steps{
-						sh './mvnw clean'
-						sh  './mvnw -Pdev'
+						timeout(time: 4, unit: 'MINUTES') {
+							sh './mvnw clean'
+							sh  './mvnw -Pdev'
+						}
 					}
 				}
 				stage('Testing'){
@@ -47,14 +49,23 @@ pipeline {
                                 sh './mvnw verify'
 							}
 							catch (err) {
-								echo 'Hello Word_11111111111111'
+								TestResult = 'false'
 							}
 						}
 					}
 				}
+
+				stage('Finsh') {
+					when {
+						expression {
+							TestResult == 'false'
+						}
+					}
+					steps {
+						echo 'Hello World 1111111111'
+					}
+				}
 			}
 		}
-
-
     }
 }
