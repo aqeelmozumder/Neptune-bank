@@ -44,7 +44,7 @@ pipeline {
 						sh 'sleep 120'
 						sh './mvnw verify'
 						catchError {
-							return
+							echo 'Hello world'
 						}
 					}
 				}
