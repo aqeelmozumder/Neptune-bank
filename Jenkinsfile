@@ -1,8 +1,6 @@
 pipeline {
     agent any
 
-
-
     stages {
 		stage('pull Code') {
 			steps {
@@ -46,13 +44,13 @@ pipeline {
 						sh 'sleep 120'
 						sh './mvnw verify'
 						catchError {
-							sh 'exit 1'
+							return
 						}
 					}
 				}
 			}
 		}
 
-		
+
     }
 }
