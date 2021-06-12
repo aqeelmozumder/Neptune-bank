@@ -54,17 +54,17 @@ pipeline {
 						}
 					}
 				}
+			}
+		}
 
-				stage('Finsh') {
-					when {
-						expression {
-							TestResult == 'false'
-						}
-					}
-					steps {
-						echo 'Hello World 1111111111'
-					}
+		stage('Finsh') {
+			when {
+				expression {
+					TestResult == 'false'
 				}
+			}
+			steps {
+				echo 'Hello World 1111111111'
 			}
 		}
     }
