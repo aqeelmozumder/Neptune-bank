@@ -31,41 +31,49 @@ pipeline {
 			}
 		}
 
-		stage('Deployment and Testing') {
-			parallel {
-				stage("Deployment"){
+		stage('Deploy and Testing'){
+			parallel{
+				stage('Deploy'){
 					steps{
-						timeout(time: 4, unit: 'MINUTES') {
-							sh './mvnw clean'
-							sh  './mvnw -Pdev'
-						}
+					   timeout(time: 4, unit: 'MINUTES') {
+					   			sh './mvnw clean'
+								sh './mvnw -Pdev'
+					   }
 					}
-				}
+					post{
+						  failure{
+							   echo 'DEPLOY Fail!!!'
+							   mail to:'hexuanz@uvic.ca',
+							   subject:'fail on Deploy',
+							   body:'something wrong with deploy'
+						  }
+						  aborted{
+							   echo 'DEPLOY Aborted!!!'
+							   mail to:'hexuanz@uvic.ca',
+							   subject:'Deploy Aborted',
+							   body:'deploy aborted '
+						  }
+					}
+			   }
 				stage('Testing'){
-					steps{
-						script {
-							try {
-								sh 'sleep 120'
-                                sh './mvnw verify'
-							}
-							catch (err) {
-								TestResult = 'false'
-							}
+					steps {
+								 sh 'sleep 100'
+								 sh './mvnw test'
+								 sh './mvnw verify'
+					}
+					post{
+						failure{
+								echo 'TESTING Fail!!!'
+								mail to:'hexuanz@uvic.ca',
+								subject:'fail on testing',
+								body:'something wrong with testing'
+						}
+						success{
+								echo 'TESTING SUCCESS!!!'
 						}
 					}
 				}
 			}
-		}
-
-		stage('Finsh') {
-			when {
-				expression {
-					TestResult == 'false'
-				}
-			}
-			steps {
-				echo 'Hello World 1111111111'
-			}
-		}
+        }
     }
 }
