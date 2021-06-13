@@ -58,7 +58,6 @@ pipeline {
 				stage('Testing'){
 					steps {
 								 sh 'sleep 100'
-								 sh './mvnw test'
 								 sh './mvnw verify'
 					}
 					post{
