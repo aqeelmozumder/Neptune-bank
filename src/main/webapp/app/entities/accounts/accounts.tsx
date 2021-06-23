@@ -85,10 +85,10 @@ export class Accounts extends React.Component<IAccountsProps, IAccountsState> {
           <div>
             <input
               type="text"
-              placeholder="Filter By Account Id AND"
+              placeholder="Filter By Account Id"
               className="form-control txtAccountIdFilter"
               onChange={this.handleFilterIdChange}
-              //value={this.state.accountId > 0 ? this.state.accountId : ''}
+              /*value={this.state.accountId > 0 ? this.state.accountId : ''}*/
             />
           </div>
         ) : null}
@@ -121,11 +121,7 @@ export class Accounts extends React.Component<IAccountsProps, IAccountsState> {
               <tbody>
                 {accountsList.map((accounts, i) => (
                   <tr key={`entity-${i}`}>
-                    <td>
-                      <Button tag={Link} to={`${match.url}/${accounts.accountID}`} color="success" size="sm">
-                        {accounts.accountID}
-                      </Button>
-                    </td>
+                    <td>{accounts.accountID} </td>
                     <td>{accounts.accountType}</td>
                     <td>{accounts.balance}</td>
                     <td>{accounts.activated ? 'true' : 'false'}</td>
