@@ -12,6 +12,7 @@ import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { getSession } from 'app/shared/reducers/authentication';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import { IFilterState } from './FilterUtils';
+import customer from '../customer/customer';
 export type IAccountsState = IFilterState;
 
 export interface IAccountsProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
@@ -84,10 +85,10 @@ export class Accounts extends React.Component<IAccountsProps, IAccountsState> {
           <div>
             <input
               type="text"
-              placeholder="Filter By Account Id"
+              placeholder="Filter By Account Id AND"
               className="form-control txtAccountIdFilter"
               onChange={this.handleFilterIdChange}
-              value={this.state.accountId > 0 ? this.state.accountId : ''}
+              //value={this.state.accountId > 0 ? this.state.accountId : ''}
             />
           </div>
         ) : null}
@@ -121,15 +122,15 @@ export class Accounts extends React.Component<IAccountsProps, IAccountsState> {
                 {accountsList.map((accounts, i) => (
                   <tr key={`entity-${i}`}>
                     <td>
-                      <Button tag={Link} to={`${match.url}/${accounts.accountID}`} color="link" size="sm">
+                      <Button tag={Link} to={`${match.url}/${accounts.accountID}`} color="success" size="sm">
                         {accounts.accountID}
                       </Button>
                     </td>
                     <td>{accounts.accountType}</td>
                     <td>{accounts.balance}</td>
                     <td>{accounts.activated ? 'true' : 'false'}</td>
-                    <td>{accounts.userLogin ? <Link to={`customer/${accounts.customerID}`}>{accounts.userLogin}</Link> : ''}</td>
-                    <td>{accounts.branchAddress ? <Link to={`branch/${accounts.branchID}`}>{accounts.branchAddress}</Link> : ''}</td>
+                    <td>{accounts.userLogin} </td>
+                    <td>{accounts.branchAddress}</td>
                     <td className="text-right">
                       {isNotUser && (
                         <div className="btn-group flex-btn-group-container">
