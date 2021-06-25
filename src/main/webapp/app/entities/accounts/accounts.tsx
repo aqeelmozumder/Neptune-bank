@@ -85,7 +85,7 @@ export class Accounts extends React.Component<IAccountsProps, IAccountsState> {
           <div>
             <input
               type="text"
-              placeholder="Filter By Account Id"
+              placeholder="Filter By Account Id OR User name"
               className="form-control txtAccountIdFilter"
               onChange={this.handleFilterIdChange}
               /*value={this.state.accountId > 0 ? this.state.accountId : ''}*/
