@@ -7,6 +7,8 @@ export interface IAccounts {
   customerID?: number;
   branchID?: number;
   userLogin?: String;
+  firstName?: String;
+  lastName?: String;
   branchAddress?: String;
 }
 

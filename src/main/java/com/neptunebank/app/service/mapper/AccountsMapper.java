@@ -15,6 +15,8 @@ public interface AccountsMapper extends EntityMapper<AccountsDTO, Accounts> {
 	@Mapping(source = "branch.branchID", target = "branchID")
 	@Mapping(source = "branch.address", target = "branchAddress")
 	@Mapping(source = "customer.user.login", target = "userLogin")
+	@Mapping(source = "customer.user.firstName", target = "firstName")
+	@Mapping(source = "customer.user.lastName", target = "lastName")
 	AccountsDTO toDto(Accounts accounts);
 
 	@Mapping(source = "customerID", target = "customer")

@@ -56,8 +56,7 @@ export class Accounts extends React.Component<IAccountsProps, IAccountsState> {
 
   handleFilterIdChange = (event: any) => {
     if (isInteger(+event.target.value)) {
-      var int_accountId = Number(event.target.value);
-      console.log(int_accountId);
+      const int_accountId = Number(event.target.value);
       this.setState({
         accountId: int_accountId,
         searchString: event.target.value
@@ -137,6 +136,12 @@ export class Accounts extends React.Component<IAccountsProps, IAccountsState> {
                     Customer <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
+                    FirstName <FontAwesomeIcon icon="sort" />
+                  </th>
+                  <th>
+                    LastName <FontAwesomeIcon icon="sort" />
+                  </th>
+                  <th>
                     Branch <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
@@ -152,6 +157,7 @@ export class Accounts extends React.Component<IAccountsProps, IAccountsState> {
                       return true;
                     }
                     return item.userLogin.indexOf(this.state.searchString) >= 0;
+                    // return item.lastName.indexOf(this.state.searchString) >= 0;
                   })
                   .map((accounts, i) => (
                     <tr key={`entity-${i}`}>
@@ -160,6 +166,8 @@ export class Accounts extends React.Component<IAccountsProps, IAccountsState> {
                       <td>{accounts.balance}</td>
                       <td>{accounts.activated ? 'true' : 'false'}</td>
                       <td>{accounts.userLogin} </td>
+                      <td>{accounts.firstName} </td>
+                      <td>{accounts.lastName} </td>
                       <td>{accounts.branchAddress}</td>
                       <td className="text-right">
                         {isNotUser && (
