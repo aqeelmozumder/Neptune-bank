@@ -30,7 +30,7 @@ import transaction, {
 // prettier-ignore
 import currency, {
   CurrenciesState
-} from 'app/entities/foreign-exchange/currency.reducer';
+} from 'app/entities/currency/currency.reducer';
 // prettier-ignore
 import branch, {
   BranchState

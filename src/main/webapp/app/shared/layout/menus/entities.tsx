@@ -20,7 +20,7 @@ export const EntitiesMenu = props => (
     <MenuItem icon="asterisk" to="/entity/transaction">
       Transfer Money
     </MenuItem>
-    <MenuItem icon="asterisk" to="/entity/foreign-exchange">
+    <MenuItem icon="asterisk" to="/entity/currency">
       Foreign Exchange
     </MenuItem>
     <MenuItem icon="asterisk" to="/entity/file-upload/new">

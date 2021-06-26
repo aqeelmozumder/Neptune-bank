@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { ICrudGetAllAction } from 'react-jhipster';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { ICurrency, defaultValue } from 'app/shared/model/currency.model';
@@ -56,16 +56,22 @@ export default (state: CurrenciesState = initialState, action): CurrenciesState 
 
 // Actions
 
-export const getEntities: ICrudGetAllAction<ICurrency> = (page, size, sort) => ({
+export const getEntities: ICrudGetAllAction<ICurrency> = () => ({
   type: ACTION_TYPES.FETCH_CURRENCIES_LIST,
-  payload: axios.get('api/transactions').then(res => {
+  payload: new Promise((resolve, reject) => {
     const c1: ICurrency = { currencyName: 'USD', exchangeRate: 0.81 };
     const c2: ICurrency = { currencyName: 'CNY', exchangeRate: 5.27 };
     const c3: ICurrency = { currencyName: 'JPY', exchangeRate: 90.23 };
     const c4: ICurrency = { currencyName: 'EUR', exchangeRate: 0.68 };
     const c5: ICurrency = { currencyName: 'INR', exchangeRate: 60.29 };
     const c6: ICurrency = { currencyName: 'GBP', exchangeRate: 0.58 };
-    res.data = [c1, c2, c3, c4, c5, c6];
-    return res;
+    const res: AxiosResponse = {
+      status: 200,
+      statusText: 'Success',
+      config: {},
+      headers: { 'content-type': 'application/json' },
+      data: [c1, c2, c3, c4, c5, c6]
+    };
+    resolve(res);
   })
 });

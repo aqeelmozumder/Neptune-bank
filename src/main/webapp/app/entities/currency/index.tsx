@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
-import { ForeignCurrencies } from './foreign-exchange';
+import ForeignCurrencies from './currency';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 
 const Routes = ({ match }) => (
