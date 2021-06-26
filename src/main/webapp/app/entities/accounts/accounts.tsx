@@ -97,7 +97,7 @@ export class Accounts extends React.Component<IAccountsProps, IAccountsState> {
           <div>
             <input
               type="text"
-              placeholder="Filter By Account Id"
+              placeholder="Filter By Account Id OR User Name"
               className="form-control txtAccountIdFilter"
               onChange={this.handleFilterIdChange}
               value={this.state.searchString ? this.state.searchString : ''}
