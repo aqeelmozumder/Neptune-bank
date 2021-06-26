@@ -1,5 +1,6 @@
 export interface IAccounts {
   accountID?: number;
+  searchString?: string;
   accountType?: string;
   balance?: number;
   activated?: boolean;

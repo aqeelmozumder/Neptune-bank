@@ -4,4 +4,5 @@ export interface IFilterState {
   order: string;
   activePage: number;
   accountId?: number;
+  searchString?: string;
 }
