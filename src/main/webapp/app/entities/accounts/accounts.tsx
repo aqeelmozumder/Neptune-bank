@@ -12,6 +12,8 @@ import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { getSession } from 'app/shared/reducers/authentication';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import { IFilterState } from './FilterUtils';
+import { isInteger } from 'lodash';
+
 export type IAccountsState = IFilterState;
 
 export interface IAccountsProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
@@ -21,7 +23,8 @@ export interface IAccountsProps extends StateProps, DispatchProps, RouteComponen
 export class Accounts extends React.Component<IAccountsProps, IAccountsState> {
   state: IAccountsState = {
     ...getSortState(this.props.location, ITEMS_PER_PAGE),
-    accountId: 0
+    accountId: 0,
+    searchString: ''
   };
 
   componentDidMount() {
@@ -52,13 +55,22 @@ export class Accounts extends React.Component<IAccountsProps, IAccountsState> {
   };
 
   handleFilterIdChange = (event: any) => {
-    this.setState({
-      accountId: event.target.value
-    });
-    if (event.target.value) {
-      this.props.getFilteredEntity(event.target.value);
+    if (isInteger(+event.target.value)) {
+      const int_accountId = Number(event.target.value);
+      this.setState({
+        accountId: int_accountId,
+        searchString: event.target.value
+      });
+
+      if (int_accountId) {
+        this.props.getFilteredEntity(int_accountId);
+      } else {
+        this.getEntities();
+      }
     } else {
-      this.getEntities();
+      this.setState({
+        searchString: event.target.value
+      });
     }
   };
 
@@ -84,13 +96,25 @@ export class Accounts extends React.Component<IAccountsProps, IAccountsState> {
           <div>
             <input
               type="text"
-              placeholder="Filter By Account Id"
+              placeholder="Filter By Account Id OR User Name"
               className="form-control txtAccountIdFilter"
               onChange={this.handleFilterIdChange}
-              value={this.state.accountId > 0 ? this.state.accountId : ''}
+              value={this.state.searchString ? this.state.searchString : ''}
             />
           </div>
         ) : null}
+
+        {/* {isNotUser ? (
+          <div>
+            <input
+              type="text"
+              placeholder="Filter By User Name"
+              className="form-control txtAccountIdFilter"
+              onChange={this.handleFilterNameChange}
+              value={this.state.searchUser ? this.state.searchUser : ''}
+            />
+          </div>
+        ) : null} */}
         <div className="table-responsive">
           {accountsList && accountsList.length > 0 ? (
             <Table responsive>
@@ -112,41 +136,56 @@ export class Accounts extends React.Component<IAccountsProps, IAccountsState> {
                     Customer <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
+                    FirstName <FontAwesomeIcon icon="sort" />
+                  </th>
+                  <th>
+                    LastName <FontAwesomeIcon icon="sort" />
+                  </th>
+                  <th>
                     Branch <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
               </thead>
               <tbody>
-                {accountsList.map((accounts, i) => (
-                  <tr key={`entity-${i}`}>
-                    <td>
-                      <Button tag={Link} to={`${match.url}/${accounts.accountID}`} color="link" size="sm">
-                        {accounts.accountID}
-                      </Button>
-                    </td>
-                    <td>{accounts.accountType}</td>
-                    <td>{accounts.balance}</td>
-                    <td>{accounts.activated ? 'true' : 'false'}</td>
-                    <td>{accounts.userLogin ? <Link to={`customer/${accounts.customerID}`}>{accounts.userLogin}</Link> : ''}</td>
-                    <td>{accounts.branchAddress ? <Link to={`branch/${accounts.branchID}`}>{accounts.branchAddress}</Link> : ''}</td>
-                    <td className="text-right">
-                      {isNotUser && (
-                        <div className="btn-group flex-btn-group-container">
-                          <Button tag={Link} to={`${match.url}/${accounts.accountID}`} color="info" size="sm">
-                            <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
-                          </Button>
-                          <Button tag={Link} to={`${match.url}/${accounts.accountID}/edit`} color="primary" size="sm">
-                            <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
-                          </Button>
-                          <Button tag={Link} to={`${match.url}/${accounts.accountID}/delete`} color="danger" size="sm">
-                            <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
-                          </Button>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                ))}
+                {accountsList
+                  .filter(item => {
+                    if (!this.state.searchString) {
+                      return true;
+                    }
+                    if (isInteger(+this.state.searchString)) {
+                      return true;
+                    }
+                    return item.userLogin.indexOf(this.state.searchString) >= 0;
+                    // return item.lastName.indexOf(this.state.searchString) >= 0;
+                  })
+                  .map((accounts, i) => (
+                    <tr key={`entity-${i}`}>
+                      <td>{accounts.accountID} </td>
+                      <td>{accounts.accountType}</td>
+                      <td>{accounts.balance}</td>
+                      <td>{accounts.activated ? 'true' : 'false'}</td>
+                      <td>{accounts.userLogin} </td>
+                      <td>{accounts.firstName} </td>
+                      <td>{accounts.lastName} </td>
+                      <td>{accounts.branchAddress}</td>
+                      <td className="text-right">
+                        {isNotUser && (
+                          <div className="btn-group flex-btn-group-container">
+                            <Button tag={Link} to={`${match.url}/${accounts.accountID}`} color="info" size="sm">
+                              <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
+                            </Button>
+                            <Button tag={Link} to={`${match.url}/${accounts.accountID}/edit`} color="primary" size="sm">
+                              <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+                            </Button>
+                            <Button tag={Link} to={`${match.url}/${accounts.accountID}/delete`} color="danger" size="sm">
+                              <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
+                            </Button>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </Table>
           ) : (

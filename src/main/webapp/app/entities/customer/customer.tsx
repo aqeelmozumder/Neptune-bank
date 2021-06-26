@@ -115,23 +115,6 @@ export class Customer extends React.Component<ICustomerProps, ICustomerState> {
                     <td>{customer.state}</td>
                     <td>{customer.zipCode}</td>
                     <td>{customer.userLogin ? customer.userLogin : ''}</td>
-                    <td className="text-right">
-                      <div className="btn-group flex-btn-group-container">
-                        <Button tag={Link} to={`${match.url}/${customer.id}`} color="info" size="sm">
-                          <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
-                        </Button>
-                        {isNotUser && (
-                          <Button tag={Link} to={`${match.url}/${customer.id}/edit`} color="primary" size="sm">
-                            <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
-                          </Button>
-                        )}
-                        {isNotUser && (
-                          <Button tag={Link} to={`${match.url}/${customer.id}/delete`} color="danger" size="sm">
-                            <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
-                          </Button>
-                        )}
-                      </div>
-                    </td>
                   </tr>
                 ))}
               </tbody>

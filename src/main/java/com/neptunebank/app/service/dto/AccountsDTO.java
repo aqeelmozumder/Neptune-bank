@@ -28,6 +28,10 @@ public class AccountsDTO implements Serializable {
 
 	private String userLogin;
 
+	private String firstName;
+
+	private String lastName;
+
 	private String branchAddress;
 
 	public Long getAccountID() {
@@ -84,6 +88,22 @@ public class AccountsDTO implements Serializable {
 
 	public void setUserLogin(String userLogin) {
 		this.userLogin = userLogin;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getBranchAddress() {
