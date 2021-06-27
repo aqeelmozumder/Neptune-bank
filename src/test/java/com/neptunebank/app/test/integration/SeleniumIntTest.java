@@ -6,14 +6,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.util.concurrent.TimeUnit;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,11 +27,8 @@ public class SeleniumIntTest {
 
 	@BeforeEach
 	public void setUp() {
-		String browser = System.getProperty("integrationTest.browser", "chrome");
+		String browser = System.getProperty("integrationTest.browser", "firefox");
 		setDriver(browser);
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--headless");
-		WebDriver driver = new ChromeDriver(options);
 		url = "http://localhost:4080";
 		driver.get(url);
 	}
@@ -63,40 +60,39 @@ public class SeleniumIntTest {
 		assertTrue(isElementPresent(By.id("account-menu")));
 	}
 
-	@Test
-	public void doesNotLogUserWithIncorrectCredentials() {
-		assertFalse(isElementPresent(By.id("account-menu"))); // starts logged out
-		login(validUsername, validPassword + "toMakeInvalid");
-		assertFalse(isElementPresent(By.id("account-menu")));
-	}
+	// @Test
+	// public void doesNotLogUserWithIncorrectCredentials() {
+	// 	assertFalse(isElementPresent(By.id("account-menu"))); // starts logged out
+	// 	login(validUsername, validPassword + "toMakeInvalid");
+	// 	assertFalse(isElementPresent(By.id("account-menu")));
+	// }
 
-	@Test
-	public void payeeIsAddedCorrectly() {
-		String firstName = "Lola";
-		String lastName = RandomStringUtils.randomAlphanumeric(8);
-		String email = (firstName + "@" + lastName + ".mail").toLowerCase();
-		String telephone = RandomStringUtils.randomNumeric(10);
+	// @Test
+	// public void payeeIsAddedCorrectly() {
+	// 	String firstName = "Lola";
+	// 	String lastName = RandomStringUtils.randomAlphanumeric(8);
+	// 	String email = (firstName + "@" + lastName + ".mail").toLowerCase();
+	// 	String telephone = RandomStringUtils.randomNumeric(10);
 
-		login();
-		driver.findElement(By.linkText("Manage Payees")).click();
+	// 	login();
+	// 	driver.findElement(By.linkText("Manage Payees")).click();
 
-		driver.findElement(By.id("jh-create-entity")).click();
+	// 	driver.findElement(By.id("jh-create-entity")).click();
 
-		WebElement formEl = driver.findElement(By.cssSelector("#app-view-container form"));
+	// 	WebElement formEl = driver.findElement(By.cssSelector("#app-view-container form"));
 
-		formEl.findElement(By.id("payee-emailID")).sendKeys(email);
-		formEl.findElement(By.id("payee-firstName")).sendKeys(firstName);
-		formEl.findElement(By.id("payee-lastName")).sendKeys(lastName);
-		formEl.findElement(By.id("payee-telephone")).sendKeys(telephone);
+	// 	formEl.findElement(By.id("payee-emailID")).sendKeys(email);
+	// 	formEl.findElement(By.id("payee-firstName")).sendKeys(firstName);
+	// 	formEl.findElement(By.id("payee-lastName")).sendKeys(lastName);
+	// 	formEl.findElement(By.id("payee-telephone")).sendKeys(telephone);
 
-		formEl.submit();
+	// 	formEl.submit();
 
-		//after creation ensure the payee is in the list
+	// 	//after creation ensure the payee is in the list
 
-		WebElement tableEl = driver.findElement(By.cssSelector("#app-view-container table"));
-		assertTrue(isElementPresent(tableEl, By.xpath(".//td[text()='" + email + "']")), "Email of new payee not found in table");
-	}
-
+	// 	WebElement tableEl = driver.findElement(By.cssSelector("#app-view-container table"));
+	// 	assertTrue(isElementPresent(tableEl, By.xpath(".//td[text()='" + email + "']")), "Email of new payee not found in table");
+	// }
 
 	@AfterEach
 	public void tearDown() {
@@ -123,9 +119,11 @@ public class SeleniumIntTest {
 
 		switch (driverName) {
 			case "firefox":
-				System.setProperty("webdriver.gecko.driver", "/opt/geckodriver");
-				driver = new FirefoxDriver();
-				driver.manage().window().maximize();
+				System.setProperty("webdriver.gecko.driver", "geckodriver");
+				FirefoxOptions firefox_options = new FirefoxOptions();
+				firefox_options.setHeadless(true);
+				driver = new FirefoxDriver(firefox_options);
+				//driver.manage().window().maximize();
 				break;
 			case "chrome":
 				System.setProperty("webdriver.chrome.driver", "/opt/chromedriver");
