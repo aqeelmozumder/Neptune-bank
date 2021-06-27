@@ -27,7 +27,7 @@ public class SeleniumIntTest {
 
 	@BeforeEach
 	public void setUp() {
-		String browser = System.getProperty("integrationTest.browser", "default");
+		String browser = System.getProperty("integrationTest.browser", "firefox");
 		setDriver(browser);
 		url = "http://localhost:4080";
 		driver.get(url);
@@ -94,40 +94,6 @@ public class SeleniumIntTest {
 		assertTrue(isElementPresent(tableEl, By.xpath(".//td[text()='" + email + "']")), "Email of new payee not found in table");
 	}
 
-	@Test
-	public void transferToBenefiarySuccessful() {
-		Random random = new Random();
-		String transactionAmount = RandomStringUtils.randomNumeric(100);
-
-		login();
-		driver.findElement(By.linkText("Banking")).click();
-		driver.findElement(By.linkText("Transfer Money")).click();
-
-		driver.findElement(By.id("jh-create-entity")).click();
-
-		WebElement formEl = driver.findElement(By.cssSelector("#app-view-container form"));
-
-		formEl.findElement(By.id("transaction-amount")).sendKeys(transactionAmount);
-		formEl.findElement(By.id("checkbox-payeeCheckBox-P")).click();
-		Select payeeSelect = new Select(formEl.findElement(By.id("transaction-toAccount")));
-		payeeSelect.selectByIndex(random.nextInt(payeeSelect.getOptions().size()));
-		WebElement selectedToAccount = payeeSelect.getFirstSelectedOption();
-
-		Select fromAccountSelect = new Select(formEl.findElement(By.id("transaction-fromAccount")));
-		fromAccountSelect.selectByIndex(random.nextInt(fromAccountSelect.getOptions().size()));
-		WebElement selectedFromAccount = fromAccountSelect.getFirstSelectedOption();
-
-		formEl.submit();
-
-		//after transfer ensure the transaction is in the list
-
-		WebElement tableEl = driver.findElement(By.cssSelector("#app-view-container table"));
-		assertTrue(isElementPresent(tableEl, By.xpath(".//td[text()='" + transactionAmount + "']")), "Transaction amount not found in table");
-		assertTrue(isElementPresent(tableEl, By.xpath(".//td[text()='" + selectedToAccount.getAttribute("value") + "']")), "To-account not found in table");
-		assertTrue(isElementPresent(tableEl, By.xpath(".//td[text()='" + selectedFromAccount.getAttribute("value") + "']")), "From-account not found in table");
-		
-		
-	}
 
 	@AfterEach
 	public void tearDown() {
@@ -154,7 +120,7 @@ public class SeleniumIntTest {
 
 		switch (driverName) {
 			case "firefox":
-				System.setProperty("webdriver.gecko.driver", "/opt/geckodriver");
+				System.setProperty("webdriver.gecko.driver", "geckodriver");
 				driver = new FirefoxDriver();
 				driver.manage().window().maximize();
 				break;
