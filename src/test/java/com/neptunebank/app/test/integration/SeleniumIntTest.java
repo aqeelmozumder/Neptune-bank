@@ -6,12 +6,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.util.concurrent.TimeUnit;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +27,7 @@ public class SeleniumIntTest {
 
 	@BeforeEach
 	public void setUp() {
-		String browser = System.getProperty("integrationTest.browser", "chrome");
+		String browser = System.getProperty("integrationTest.browser", "default");
 		setDriver(browser);
 		url = "http://localhost:4080";
 		driver.get(url);
@@ -90,6 +92,41 @@ public class SeleniumIntTest {
 
 		WebElement tableEl = driver.findElement(By.cssSelector("#app-view-container table"));
 		assertTrue(isElementPresent(tableEl, By.xpath(".//td[text()='" + email + "']")), "Email of new payee not found in table");
+	}
+
+	@Test
+	public void transferToBenefiarySuccessful() {
+		Random random = new Random();
+		String transactionAmount = RandomStringUtils.randomNumeric(100);
+
+		login();
+		driver.findElement(By.linkText("Banking")).click();
+		driver.findElement(By.linkText("Transfer Money")).click();
+
+		driver.findElement(By.id("jh-create-entity")).click();
+
+		WebElement formEl = driver.findElement(By.cssSelector("#app-view-container form"));
+
+		formEl.findElement(By.id("transaction-amount")).sendKeys(transactionAmount);
+		formEl.findElement(By.id("checkbox-payeeCheckBox-P")).click();
+		Select payeeSelect = new Select(formEl.findElement(By.id("transaction-toAccount")));
+		payeeSelect.selectByIndex(random.nextInt(payeeSelect.getOptions().size()));
+		WebElement selectedToAccount = payeeSelect.getFirstSelectedOption();
+
+		Select fromAccountSelect = new Select(formEl.findElement(By.id("transaction-fromAccount")));
+		fromAccountSelect.selectByIndex(random.nextInt(fromAccountSelect.getOptions().size()));
+		WebElement selectedFromAccount = fromAccountSelect.getFirstSelectedOption();
+
+		formEl.submit();
+
+		//after transfer ensure the transaction is in the list
+
+		WebElement tableEl = driver.findElement(By.cssSelector("#app-view-container table"));
+		assertTrue(isElementPresent(tableEl, By.xpath(".//td[text()='" + transactionAmount + "']")), "Transaction amount not found in table");
+		assertTrue(isElementPresent(tableEl, By.xpath(".//td[text()='" + selectedToAccount.getAttribute("value") + "']")), "To-account not found in table");
+		assertTrue(isElementPresent(tableEl, By.xpath(".//td[text()='" + selectedFromAccount.getAttribute("value") + "']")), "From-account not found in table");
+		
+		
 	}
 
 	@AfterEach
