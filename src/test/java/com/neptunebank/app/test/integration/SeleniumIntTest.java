@@ -25,7 +25,7 @@ public class SeleniumIntTest {
 
 	@BeforeEach
 	public void setUp() {
-		String browser = System.getProperty("integrationTest.browser", "firefox");
+		String browser = System.getProperty("integrationTest.browser", "chrome");
 		setDriver(browser);
 		url = "http://localhost:4080";
 		driver.get(url);
