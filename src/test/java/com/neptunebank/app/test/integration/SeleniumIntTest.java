@@ -13,7 +13,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.util.concurrent.TimeUnit;
-import java.util.Random;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,8 +27,11 @@ public class SeleniumIntTest {
 
 	@BeforeEach
 	public void setUp() {
-		String browser = System.getProperty("integrationTest.browser", "firefox");
+		String browser = System.getProperty("integrationTest.browser", "chrome");
 		setDriver(browser);
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--headless");
+		WebDriver driver = new ChromeDriver(options);
 		url = "http://localhost:4080";
 		driver.get(url);
 	}
@@ -120,7 +123,7 @@ public class SeleniumIntTest {
 
 		switch (driverName) {
 			case "firefox":
-				System.setProperty("webdriver.gecko.driver", "geckodriver");
+				System.setProperty("webdriver.gecko.driver", "/opt/geckodriver");
 				driver = new FirefoxDriver();
 				driver.manage().window().maximize();
 				break;
