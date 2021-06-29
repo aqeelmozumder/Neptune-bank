@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { ICrudGetAllAction } from 'react-jhipster';
+import { ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { ICurrency, defaultValue } from 'app/shared/model/currency.model';
 
