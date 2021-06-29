@@ -28,6 +28,10 @@ import transaction, {
   TransactionsState
 } from 'app/entities/transaction/transaction.reducer';
 // prettier-ignore
+import currency, {
+  CurrenciesState
+} from 'app/entities/currency/currency.reducer';
+// prettier-ignore
 import branch, {
   BranchState
 } from 'app/entities/branch/branch.reducer';
@@ -55,6 +59,7 @@ export interface IRootState {
   readonly accounts: AccountsState;
   readonly payee: PayeeState;
   readonly transaction: TransactionsState;
+  readonly currency: CurrenciesState;
   readonly branch: BranchState;
   readonly news: NewsState;
   readonly fileUpload: FileUploadState;
@@ -76,6 +81,7 @@ const rootReducer = combineReducers<IRootState>({
   accounts,
   payee,
   transaction,
+  currency,
   branch,
   news,
   fileUpload,
