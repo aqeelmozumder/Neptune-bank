@@ -228,7 +228,6 @@ public class SeleniumIntTest {
 
 
 	/* As a manager, I can approve loans/credits */
-	
 	@Test
 	public void ManagerApproveAccounts(){
 		Managerlogin();
@@ -250,7 +249,92 @@ public class SeleniumIntTest {
 		assertEquals(result,"true");
 	}
 
+	@Test  //Unstable
+	public void ManagerFailToApproveAccounts(){
+		Managerlogin();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		//assertTrue(isElementPresent(By.linkText("Account Approval")));
+		driver.findElement(By.linkText("Account Approval")).click();
+		//get the second account id
+		String acccountId = driver.findElement(By.xpath("/html/body/div/div/div[2]/div[3]/div[1]/div/div/div[1]/div/table/tbody/tr[2]/td[1]/a")).getText();
+		System.out.println(acccountId);
+		// does not click "approve" for the fist account
+		driver.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div[1]/div/table/tbody/tr[1]/td[4]/button"));
+		//go to the banking->account
+		driver.findElement(By.linkText("Banking")).click();
+		driver.findElement(By.linkText("Accounts")).click();
+		// search for the account id and check if the acocunt got approved
+		driver.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/input")).sendKeys(acccountId);
+		String result = driver.findElement(By.xpath("/html/body/div/div/div[2]/div[3]/div[1]/div/div/div/div[2]/div/table/tbody/tr/td[4]")).getText();
+		System.out.println(result);
+		assertEquals(result,"false");
+	}
 	
+	/* As a manager, I can post/update news/notices on the main website */
+	@Test
+	public void ManagerUpdateNews() throws InterruptedException {
+		//input the title,date,content,test,location
+		String title ="test_title";
+		String date="2021-06-27";
+		String content="test_content";
+		String location="test_location";
+		Managerlogin();
+		driver.findElement(By.xpath("/html/body/div/div/div[2]/div[2]/nav/div/ul/li[9]/a")).click();
+		//get the num of news before adding a new post
+		int count = driver.findElements(By.className("even")).size();
+		System.out.println("there are totoal "+ count+" news in the list before adding");
+		driver.findElement(By.id("jh-create-entity")).click();
+
+		driver.findElement(By.id("news-title")).sendKeys(title);
+		driver.findElement(By.id("news-date")).clear();
+		Thread.sleep(2000);
+		//driver.findElement(By.id("news-date")).sendKeys(date);
+		driver.findElement((By.xpath("//*[@id=\"news-date\"]"))).sendKeys(date);
+
+		Thread.sleep(2000);
+		driver.findElement(By.id("news-content")).sendKeys(content);
+		driver.findElement(By.id("news-location")).sendKeys(location);
+		driver.findElement(By.id("save-entity")).click();
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		driver.findElement(By.linkText("News & Updates")).click();
+		//to see the number of news in the list
+		int resultCount = driver.findElements(By.className("even")).size();
+		System.out.println("there are totoal "+ resultCount+" news in the list after adding");
+		assertEquals(resultCount,count+1);
+	}
+
+	@Test
+	public void ManagerFailToUpdateNews() throws InterruptedException {
+		//input the title,date,content,test,location
+		String title ="test_title";
+		String date="2021-6-27"; // the date form is wrong -> it will fail to add a new posting
+		String content="test_content";
+		String location="test_location";
+		Managerlogin();
+		driver.findElement(By.linkText("News & Updates")).click();
+		//get the num of news before adding a new post
+		int count = driver.findElements(By.className("even")).size();
+		System.out.println("there are totoal "+ count+" news in the list before adding");
+		driver.findElement(By.id("jh-create-entity")).click();
+
+		driver.findElement(By.id("news-title")).sendKeys(title);
+		driver.findElement(By.id("news-date")).clear();
+		Thread.sleep(2000);
+		//driver.findElement(By.id("news-date")).sendKeys(date);
+		driver.findElement((By.xpath("//*[@id=\"news-date\"]"))).sendKeys(date);
+
+		Thread.sleep(2000);
+		driver.findElement(By.id("news-content")).sendKeys(content);
+		driver.findElement(By.id("news-location")).sendKeys(location);
+		driver.findElement(By.id("save-entity")).click();
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		driver.findElement(By.linkText("News & Updates")).click();
+		//to see the number of news in the list
+		int resultCount = driver.findElements(By.className("even")).size();
+		System.out.println("there are totoal "+ resultCount+" news in the list after adding");
+		assertEquals(resultCount,count);
+	}
+
 
 
 
