@@ -23,6 +23,7 @@ import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("Integration")
@@ -146,11 +147,9 @@ public class SeleniumIntTest {
 	public void EditCustomerDetailsSuccessful() {
 		String firstName = "Tester";
 		String lastName =  "Testingedit";
-		long start = System.currentTimeMillis();
+		
 		login();
-		long finish = System.currentTimeMillis();
-		long totalTime = finish - start; 
-		System.out.println("Total Time for page load - "+totalTime); 
+
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 
@@ -188,15 +187,61 @@ public class SeleniumIntTest {
 		System.out.println(Cellneed.getText());
 		assertEquals(Cellneed.getText(), firstName);
 	}
+
+	@Test
+	public void EditCustomerDetailsUnSuccessful() {
+		String firstName = ""; // it wont add as system would require an input
+		String lastName =  "Testingedit";
+	
+		login();
+
+
+		WebElement Appheader = driver.findElement(By.id("app-header"));
+		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
+
+		
+		WebDriverWait wait3 = new WebDriverWait(driver, 10);
+		wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		Headertabs.findElement(By.id("entity-menu")).click();
+		
+
+		driver.findElement(By.linkText("Customer Details")).click();
+
+		
+		WebElement tableEl = driver.findElement(By.cssSelector("#app-view-container table"));
+		WebElement tableRow = tableEl.findElement(By.xpath("//*[@id= \"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/tbody/tr[3]"));
+		
+
+		WebElement EditEl =  tableRow.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/tbody/tr[3]/td[11]/div/a[2]"));
+		EditEl.click();
+
+		WebElement formEl = driver.findElement(By.cssSelector("#app-view-container"));
+	
+		formEl.findElement(By.id("customer-firstName")).clear();
+		formEl.findElement(By.id("customer-firstName")).sendKeys(firstName);
+		formEl.findElement(By.id("customer-lastName")).clear();
+		formEl.findElement(By.id("customer-lastName")).sendKeys(lastName);
+
+		WebElement myelement = formEl.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[2]/div/form/button[1]"));
+		JavascriptExecutor jse2 = (JavascriptExecutor)driver;
+		jse2.executeScript("arguments[0].scrollIntoView()", myelement); 
+		myelement.click(); //we gonna go back as it wont save
+		//after backing from an unsuccesful edited details
+		WebElement newtableEl = driver.findElement(By.cssSelector("#app-view-container table"));
+		WebElement newtablerow = newtableEl.findElement(By.xpath("//*[@id= \"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/tbody/tr[3]"));
+		WebElement Cellneed = newtablerow.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/tbody/tr[3]/td[2]"));
+		System.out.println(Cellneed.getText());
+		assertNotEquals(Cellneed.getText(), firstName);
+	}
+	
 	
 	@Test
 	public void DeleteCustomerDetailsSuccessful() {
 		
-		long start = System.currentTimeMillis();
+
 		login();
-		long finish = System.currentTimeMillis();
-		long totalTime = finish - start; 
-		System.out.println("Total Time for page load - "+totalTime); 
+
+
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 		WebDriverWait wait3 = new WebDriverWait(driver, 10);
@@ -236,11 +281,9 @@ public class SeleniumIntTest {
 	public void EditTransactionDetailsSuccessful() {
 		
 		String transactionAmount = RandomStringUtils.randomNumeric(4);
-		long start = System.currentTimeMillis();
+
 		login();
-		long finish = System.currentTimeMillis();
-		long totalTime = finish - start; 
-		System.out.println("Total Time for page load - "+totalTime); 
+
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 
@@ -283,14 +326,60 @@ public class SeleniumIntTest {
 
 
 	@Test
+	public void EditTransactionDetailsUnSuccessful() {
+		
+		String transactionAmount = ""; // This will fail beacuse it requires an input
+
+		login();
+
+		WebElement Appheader = driver.findElement(By.id("app-header"));
+		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
+
+		
+		WebDriverWait wait3 = new WebDriverWait(driver, 30);
+		wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		Headertabs.findElement(By.id("entity-menu")).click();
+		
+
+		driver.findElement(By.linkText("Transfer Money")).click();
+
+		
+		WebElement tableEl = driver.findElement(By.cssSelector("#app-view-container table"));
+		WebElement tableRow = tableEl.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/tbody/tr[3]"));
+		WebElement Cellneed = tableRow.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/tbody/tr[4]/td[3]"));
+		WebElement ToAccountneeded = tableRow.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/tbody/tr[4]/td[5]"));
+		String ToAccount = ToAccountneeded.getText();
+		// String oldTransactionAmount = Cellneed.getText();
+		WebElement EditEl =  tableRow.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/tbody/tr[4]/td[7]/div/a[2]"));
+		EditEl.click();
+
+		WebElement formEl = driver.findElement(By.cssSelector("#app-view-container"));
+		
+		formEl.findElement(By.id("transaction-amount")).clear();
+		formEl.findElement(By.id("transaction-amount")).sendKeys(transactionAmount);
+		formEl.findElement(By.id("transaction-toAccount1")).clear();
+		formEl.findElement(By.id("transaction-toAccount1")).sendKeys(ToAccount);
+
+		WebElement myelement = formEl.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[2]/div/form/button[1]"));
+		JavascriptExecutor jse2 = (JavascriptExecutor)driver;
+		jse2.executeScript("arguments[0].scrollIntoView()", myelement); 
+		myelement.click();
+		//after backing from an unsuccesful edited details
+		WebElement newtableEl = driver.findElement(By.cssSelector("#app-view-container table"));
+		WebElement newtablerow = newtableEl.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/tbody/tr[3]"));
+		WebElement newCellneed = newtablerow.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/tbody/tr[4]/td[3]"));
+		String EditedTransactionAmount = newCellneed.getText();
+		assertNotEquals(EditedTransactionAmount, transactionAmount);
+	}
+
+	@Test
 	public void AddNewTransactionSuccessful() {
 		
 		String transactionAmount = RandomStringUtils.randomNumeric(4);
-		long start = System.currentTimeMillis();
+		
 		login();
-		long finish = System.currentTimeMillis();
-		long totalTime = finish - start; 
-		System.out.println("Total Time for page load - "+totalTime); 
+
+
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 
@@ -340,16 +429,70 @@ public class SeleniumIntTest {
 		assertEquals(NewToAccount, AmountTo);
 	}
 
+
+	@Test
+	public void AddNewTransactionUnSuccessful() {
+		
+		String transactionAmount = RandomStringUtils.randomNumeric(4);
+
+		login();
+
+		WebElement Appheader = driver.findElement(By.id("app-header"));
+		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
+
+		
+		WebDriverWait wait3 = new WebDriverWait(driver, 10);
+		wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		Headertabs.findElement(By.id("entity-menu")).click();
+		
+
+		driver.findElement(By.linkText("Transfer Money")).click();
+		driver.findElement(By.id("jh-create-entity")).click();
+
+
+		WebElement formEl = driver.findElement(By.cssSelector("#app-view-container"));
+		
+		formEl.findElement(By.id("transaction-amount")).clear();
+		formEl.findElement(By.id("transaction-amount")).sendKeys(transactionAmount);
+		WebElement AmountFrom = formEl.findElement(By.id("transaction-fromAccount"));
+		AmountFrom.click();
+		Select drpdownAccount = new Select (AmountFrom);
+		drpdownAccount.selectByIndex(1);
+		List<WebElement> getOptions = drpdownAccount.getOptions();
+		List<String> list = new ArrayList<String>(); 
+		// Use advanced for loop to add all options in the list. 
+		  for(WebElement element : getOptions) 
+		  { 
+			list.add(element.getText()); // Here, getText() method of WebElement class has been used to add the text label of all the options in the list. 
+		  } 
+		String AmountTo = ""; // will fail here so have to go back
+		
+		formEl.findElement(By.id("transaction-toAccount1")).sendKeys(AmountTo);
+
+		WebElement myelement = formEl.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[2]/div/form/button[1]"));
+		JavascriptExecutor jse2 = (JavascriptExecutor)driver;
+		jse2.executeScript("arguments[0].scrollIntoView()", myelement); 
+		myelement.click();
+		//after backing from an unsicessful edited details
+		// WebDriverWait wait2 = new WebDriverWait(driver, 10);
+		// wait2.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#app-view-container table")));
+		WebElement newtableEl = driver.findElement(By.cssSelector("#app-view-container table"));
+		
+		WebElement clickDate = newtableEl.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/thead/tr/th[2]"));
+		clickDate.click();
+		WebElement newtablerow = newtableEl.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/tbody/tr[1]"));
+		WebElement newCellneed = newtablerow.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div[1]/div[1]/div/table/tbody/tr[1]/td[5]"));
+		String NewToAccount = newCellneed.getText();
+		assertNotEquals(NewToAccount, AmountTo);
+	}
 	
 	@Test
 	public void FilterTransactionSuccessful() throws ParseException {
 		String Tester = "InCorrect";
 		String Correct = "Correct";
-		long start = System.currentTimeMillis();
+		
 		login();
-		long finish = System.currentTimeMillis();
-		long totalTime = finish - start; 
-		System.out.println("Total Time for page load - "+totalTime); 
+	
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 
@@ -393,14 +536,62 @@ public class SeleniumIntTest {
 		assertEquals(Tester, Correct);
 	}
 
+	@Test
+	public void FilterTransactionUnSuccessful() throws ParseException {
+		String Tester = "InCorrect";
+		String Correct = "Correct";
+
+		login();
+
+		WebElement Appheader = driver.findElement(By.id("app-header"));
+		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
+
+		
+		WebDriverWait wait3 = new WebDriverWait(driver, 10);
+		wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		Headertabs.findElement(By.id("entity-menu")).click();
+		
+
+		driver.findElement(By.linkText("Transfer Money")).click();
+		WebElement StartDate = driver.findElement(By.xpath("//*[@id=\"start-date\"]"));
+		WebElement EndDate = driver.findElement(By.xpath("//*[@id=\"end-date\"]"));
+		String dateStart = "24-09-20182345";
+		StartDate.sendKeys("20182345-09-25"); //Wrong format so will fail
+		EndDate.sendKeys("002020-09-25");
+		WebElement Filter = driver.findElement(By.id("filter-tran"));
+		Filter.click();
+		
+		WebElement newtableEl = driver.findElement(By.cssSelector("#app-view-container table"));
+		
+		WebElement clickDate = newtableEl.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/thead/tr/th[2]"));
+		clickDate.click();
+		WebElement newtablerow = newtableEl.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/tbody/tr[1]"));
+		WebElement newCellneed = newtablerow.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/div/table/tbody/tr[1]/td[2]/span"));
+		String NewDate = newCellneed.getText();
+		NewDate = NewDate.replace("/", "-");
+		SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
+		Date d1 = sdformat.parse(dateStart);
+		Date d2 = sdformat.parse(NewDate);
+		System.out.println("The date 1 is: " + sdformat.format(d1));
+		System.out.println("The date 2 is: " + sdformat.format(d2));
+		
+
+		// int NewStartDate = Integer.parseInt(NewDate);
+
+		if(d2.compareTo(d1)>0){
+			Tester = "Correct";
+			
+		}
+		
+		assertNotEquals(Tester, Correct);
+	}
+
 
 	@Test
 	public void FilterAccountIDSuccessful() {
-		long start = System.currentTimeMillis();
+
 		login();
-		long finish = System.currentTimeMillis();
-		long totalTime = finish - start; 
-		System.out.println("Total Time for page load - "+totalTime); 
+
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 
@@ -429,6 +620,7 @@ public class SeleniumIntTest {
 		
 		assertEquals(Accountid, NewAccountid);
 	}
+
 
 	@AfterEach
 	public void tearDown() {
