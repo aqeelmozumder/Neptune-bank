@@ -153,9 +153,10 @@ public class SeleniumIntTest {
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 
-		
-		WebDriverWait wait3 = new WebDriverWait(driver, 10);
-		wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		// WebDriverWait wait3 = new WebDriverWait(driver, 10);
+		// wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
 		Headertabs.findElement(By.id("entity-menu")).click();
 		
 
@@ -199,9 +200,9 @@ public class SeleniumIntTest {
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 
-		
-		WebDriverWait wait3 = new WebDriverWait(driver, 10);
-		wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		// WebDriverWait wait3 = new WebDriverWait(driver, 10);
+		// wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
 		Headertabs.findElement(By.id("entity-menu")).click();
 		
 
@@ -244,8 +245,9 @@ public class SeleniumIntTest {
 
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
-		WebDriverWait wait3 = new WebDriverWait(driver, 10);
-		wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		// WebDriverWait wait3 = new WebDriverWait(driver, 10);
+		// wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
 		Headertabs.findElement(By.id("entity-menu")).click();
 		
 
@@ -287,9 +289,9 @@ public class SeleniumIntTest {
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 
-		
-		WebDriverWait wait3 = new WebDriverWait(driver, 30);
-		wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		// WebDriverWait wait3 = new WebDriverWait(driver, 30);
+		// wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
 		Headertabs.findElement(By.id("entity-menu")).click();
 		
 
@@ -335,9 +337,9 @@ public class SeleniumIntTest {
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 
-		
-		WebDriverWait wait3 = new WebDriverWait(driver, 30);
-		wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		// WebDriverWait wait3 = new WebDriverWait(driver, 30);
+		// wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
 		Headertabs.findElement(By.id("entity-menu")).click();
 		
 
@@ -383,9 +385,9 @@ public class SeleniumIntTest {
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 
-		
-		WebDriverWait wait3 = new WebDriverWait(driver, 10);
-		wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		// WebDriverWait wait3 = new WebDriverWait(driver, 10);
+		// wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
 		Headertabs.findElement(By.id("entity-menu")).click();
 		
 
@@ -440,9 +442,9 @@ public class SeleniumIntTest {
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 
-		
-		WebDriverWait wait3 = new WebDriverWait(driver, 10);
-		wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		// WebDriverWait wait3 = new WebDriverWait(driver, 10);
+		// wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
 		Headertabs.findElement(By.id("entity-menu")).click();
 		
 
@@ -496,9 +498,9 @@ public class SeleniumIntTest {
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 
-		
-		WebDriverWait wait3 = new WebDriverWait(driver, 10);
-		wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		// WebDriverWait wait3 = new WebDriverWait(driver, 10);
+		// wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
 		Headertabs.findElement(By.id("entity-menu")).click();
 		
 
@@ -546,9 +548,9 @@ public class SeleniumIntTest {
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 
-		
-		WebDriverWait wait3 = new WebDriverWait(driver, 10);
-		wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		// WebDriverWait wait3 = new WebDriverWait(driver, 10);
+		// wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
 		Headertabs.findElement(By.id("entity-menu")).click();
 		
 
@@ -595,9 +597,9 @@ public class SeleniumIntTest {
 		WebElement Appheader = driver.findElement(By.id("app-header"));
 		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
 
-		
-		WebDriverWait wait3 = new WebDriverWait(driver, 10);
-		wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		// WebDriverWait wait3 = new WebDriverWait(driver, 10);
+		// wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
 		Headertabs.findElement(By.id("entity-menu")).click();
 		
 
