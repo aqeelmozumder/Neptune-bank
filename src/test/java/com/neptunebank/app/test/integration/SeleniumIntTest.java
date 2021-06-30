@@ -834,6 +834,39 @@ public class SeleniumIntTest {
 	}
 
 
+/*******************************************************************     New features tests     *********************************************************************/
+// New feature 1: Search Bar In Accounts Page Can Search Username
+
+	/* As a staff member, I want to look up accounts by filtering the Username */
+	@Test
+	public void FindAccountsByUsername() {
+
+		Stafflogin();
+
+		WebElement Appheader = driver.findElement(By.id("app-header"));
+		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		// WebDriverWait wait3 = new WebDriverWait(driver, 10);
+		// wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		Headertabs.findElement(By.id("entity-menu")).click();
+
+		driver.findElement(By.linkText("Accounts")).click();
+		WebElement SearchBar = driver.findElement(By.xpath("/html/body/div/div/div[2]/div[3]/div[1]/div/div/div/div[1]/input"));
+		
+		String Username = "jbutt";
+		SearchBar.sendKeys(Username);
+		
+		String ShowedAccountUsername = driver.findElement(By.xpath("/html/body/div/div/div[2]/div[3]/div[1]/div/div/div/div[2]/div/table/tbody/tr/td[5]")).getText();
+
+		assertEquals(Username, ShowedAccountUsername);
+	}
+
+// New feature 2: Customers can view the currency table in "Foreign Page"	
+
+
+
+
 	@AfterEach
 	public void tearDown() {
 		driver.quit();
