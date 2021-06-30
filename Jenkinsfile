@@ -22,15 +22,6 @@ pipeline {
 			}
 		}
 
-		stage('SonarQube Scan') {
-			steps {
-				sh './mvnw sonar:sonar \
-                      -Dsonar.projectKey=team-13 \
-                      -Dsonar.host.url=https://sonarqube.seng.uvic.ca \
-                      -Dsonar.login=50a951d809a1c3674cf82b98d37d0b4d78805af4'
-			}
-		}
-
 		stage('Deploy and Testing'){
 			parallel{
 				stage('Deploy'){
