@@ -679,21 +679,14 @@ public class SeleniumIntTest {
 		Headertabs.findElement(By.id("entity-menu")).click();
 
 		driver.findElement(By.linkText("Accounts")).click();
-		WebElement AccountId = driver.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[1]/input"));
+		WebElement SearchBar = driver.findElement(By.xpath("/html/body/div/div/div[2]/div[3]/div[1]/div/div/div/div[1]/input"));
 		
-		WebElement tableEl = driver.findElement(By.cssSelector("#app-view-container table"));
-		WebElement tableRow = tableEl.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[2]/div/table/tbody/tr[1]"));
-		WebElement Cellneed = tableRow.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[2]/div/table/tbody/tr[1]/td[1]/a"));
-		String Accountid = Cellneed.getText();
-		AccountId.sendKeys(Accountid);
+		String AccountId = driver.findElement(By.xpath("/html/body/div/div/div[2]/div[3]/div[1]/div/div/div/div[2]/div/table/tbody/tr[1]/td[1]")).getText();
+		SearchBar.sendKeys(AccountId);
 		
-		WebElement newtableEl = driver.findElement(By.cssSelector("#app-view-container table"));
-		
-		WebElement newtablerow = newtableEl.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[2]/div/table/tbody/tr[1]"));
-		WebElement newCellneed = newtablerow.findElement(By.xpath("//*[@id=\"app-view-container\"]/div[1]/div/div/div/div[2]/div/table/tbody/tr[1]/td[1]/a"));
-		String NewAccountid = newCellneed.getText();
+		String ShowedAccountId = driver.findElement(By.xpath("/html/body/div/div/div[2]/div[3]/div[1]/div/div/div/div[2]/div/table/tbody/tr/td[1]")).getText();
 
-		assertEquals(Accountid, NewAccountid);
+		assertEquals(AccountId, ShowedAccountId);
 	}
 
 
