@@ -27,6 +27,7 @@ import java.util.Random;
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,7 +51,7 @@ public class SeleniumIntTest {
 
 	@BeforeEach
 	public void setUp() {
-		String browser = System.getProperty("integrationTest.browser", "firefox");
+		String browser = System.getProperty("integrationTest.browser", "chrome");
 		setDriver(browser);
 		url = "http://localhost:4080";
 		driver.get(url);
@@ -838,6 +839,99 @@ public class SeleniumIntTest {
 		driver.findElement(By.linkText("Administration")).click();
 		driver.findElement(By.linkText("Logs")).click();
 		assertEquals("Logs", driver.findElement(By.tagName("h2")).getText());
+	}
+
+	@Test
+	public void testCurrencyTablePresent() {
+		Userlogin();
+		driver.findElement(By.linkText("Banking")).click();
+		driver.findElement(By.linkText("Foreign Exchange")).click();
+		WebElement tableEl = driver.findElement(By.tagName("table"));
+		assertNotNull(tableEl);
+	}
+	@Test
+	public void testCurrencyTableContents() {
+		int expectedTableSize = 7;
+		Userlogin();
+		driver.findElement(By.linkText("Banking")).click();
+		driver.findElement(By.linkText("Foreign Exchange")).click();
+		WebElement tableEl = driver.findElement(By.tagName("table"));
+		List<WebElement> tableRows = tableEl.findElements(By.tagName("tr"));
+		assertEquals(expectedTableSize, tableRows.size());
+		List<String> foundCurrencies = new ArrayList<String>();
+		List<String> expectedCurrencies = new ArrayList<String>(Arrays.asList("USD", "CNY", "JPY", "EUR", "INR", "GBP"));
+		for (WebElement row : tableRows) {
+			List<WebElement> vals = row.findElements(By.tagName("td"));
+			if (vals.size() == 2) {
+				String currency = vals.get(0).getText();
+				foundCurrencies.add(currency);
+			}
+		}
+		assertEquals(expectedCurrencies, foundCurrencies);
+	}
+
+	@Test
+	public void testFXCalculatorSuccess() {
+		int fromCurrencyIndex = 1; // USD
+		int toCurrencyIndex = 2; // CNY
+		String amount = "123.45";
+		String expectedCalculatedExchange = "803.19 CNY";
+		Userlogin();
+		driver.findElement(By.linkText("Banking")).click();
+		driver.findElement(By.linkText("Foreign Exchange")).click();
+		WebElement formEl = driver.findElement(By.className("av-invalid"));
+		formEl.findElement(By.id("conversion-amount")).sendKeys(amount);
+		Select fromSelect = new Select(formEl.findElement(By.id("fromCurrency")));
+		fromSelect.selectByIndex(fromCurrencyIndex);
+		Select toSelect = new Select(formEl.findElement(By.id("toCurrency")));
+		toSelect.selectByIndex(toCurrencyIndex);
+		driver.findElement(By.id("calculate-exchange")).click();
+		String calculatedExchange = driver.findElement(By.xpath("/html/body/div/div/div[2]/div[3]/div[1]/div/div/div/form/div/div[4]/label")).getText();
+
+		assertEquals(expectedCalculatedExchange, calculatedExchange);
+	}
+
+	@Test
+	public void testFXCalculatorBoundary() {
+		int fromCurrencyIndex = 1; // USD
+		int toCurrencyIndex = 2; // CNY
+		String amount = String.format("%f", Float.MAX_VALUE);
+		System.out.println(amount);
+		String expectedCalculatedExchange = "2.2139357614630207e+39 CNY";
+		Userlogin();
+		driver.findElement(By.linkText("Banking")).click();
+		driver.findElement(By.linkText("Foreign Exchange")).click();
+		WebElement formEl = driver.findElement(By.className("av-invalid"));
+		formEl.findElement(By.id("conversion-amount")).sendKeys(amount);
+		Select fromSelect = new Select(formEl.findElement(By.id("fromCurrency")));
+		fromSelect.selectByIndex(fromCurrencyIndex);
+		Select toSelect = new Select(formEl.findElement(By.id("toCurrency")));
+		toSelect.selectByIndex(toCurrencyIndex);
+		driver.findElement(By.id("calculate-exchange")).click();
+		String calculatedExchange = driver.findElement(By.xpath("/html/body/div/div/div[2]/div[3]/div[1]/div/div/div/form/div/div[4]/label")).getText();
+
+		assertEquals(expectedCalculatedExchange, calculatedExchange);
+	}
+
+	@Test
+	public void testFXCalculatorInvalidAmount() {
+		int fromCurrencyIndex = 1; // USD
+		int toCurrencyIndex = 2; // CNY
+		String amount = "not a number";
+		String expectedCalculatedExchange = "NaN CNY";
+		Userlogin();
+		driver.findElement(By.linkText("Banking")).click();
+		driver.findElement(By.linkText("Foreign Exchange")).click();
+		WebElement formEl = driver.findElement(By.className("av-invalid"));
+		formEl.findElement(By.id("conversion-amount")).sendKeys(amount);
+		Select fromSelect = new Select(formEl.findElement(By.id("fromCurrency")));
+		fromSelect.selectByIndex(fromCurrencyIndex);
+		Select toSelect = new Select(formEl.findElement(By.id("toCurrency")));
+		toSelect.selectByIndex(toCurrencyIndex);
+		driver.findElement(By.id("calculate-exchange")).click();
+		String calculatedExchange = driver.findElement(By.xpath("/html/body/div/div/div[2]/div[3]/div[1]/div/div/div/form/div/div[4]/label")).getText();
+		System.out.println(calculatedExchange);
+		assertEquals(expectedCalculatedExchange, calculatedExchange);
 	}
 
 
