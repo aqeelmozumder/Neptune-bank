@@ -22,10 +22,8 @@ import java.util.Date;
 import java.util.Calendar;
 import java.util.List;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.Collections;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -51,7 +49,7 @@ public class SeleniumIntTest {
 
 	@BeforeEach
 	public void setUp() {
-		String browser = System.getProperty("integrationTest.browser", "chrome");
+		String browser = System.getProperty("integrationTest.browser", "firefox");
 		setDriver(browser);
 		url = "http://localhost:4080";
 		driver.get(url);
@@ -834,6 +832,38 @@ public class SeleniumIntTest {
 		assertEquals("Logs", driver.findElement(By.tagName("h2")).getText());
 	}
 
+
+/*******************************************************************     New features tests     *********************************************************************/
+// New feature 1: Search Bar In Accounts Page Can Search Username
+
+	/* As a staff member, I want to look up accounts by filtering the Username */
+	@Test
+	public void FindAccountsByUsername() {
+
+		Stafflogin();
+
+		WebElement Appheader = driver.findElement(By.id("app-header"));
+		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		// WebDriverWait wait3 = new WebDriverWait(driver, 10);
+		// wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
+		Headertabs.findElement(By.id("entity-menu")).click();
+
+		driver.findElement(By.linkText("Accounts")).click();
+		WebElement SearchBar = driver.findElement(By.xpath("/html/body/div/div/div[2]/div[3]/div[1]/div/div/div/div[1]/input"));
+		
+		String Username = "jbutt";
+		SearchBar.sendKeys(Username);
+		
+		String ShowedAccountUsername = driver.findElement(By.xpath("/html/body/div/div/div[2]/div[3]/div[1]/div/div/div/div[2]/div/table/tbody/tr/td[5]")).getText();
+
+		assertEquals(Username, ShowedAccountUsername);
+	}
+
+// New feature 2: Customers can view the currency exchange table in "Foreign Exchange" page
+
+	/* As a customer, I want to view the exchange rate between foreign currencies and the Canadian Dollar */
 	@Test
 	public void testCurrencyTablePresent() {
 		Userlogin();
@@ -842,6 +872,7 @@ public class SeleniumIntTest {
 		WebElement tableEl = driver.findElement(By.tagName("table"));
 		assertNotNull(tableEl);
 	}
+
 	@Test
 	public void testCurrencyTableContents() {
 		int expectedTableSize = 7;
@@ -862,6 +893,11 @@ public class SeleniumIntTest {
 		}
 		assertEquals(expectedCurrencies, foundCurrencies);
 	}
+
+
+// New feature 3: Customer can use the foreign exchange calculator to calculate the currency conversion
+
+	/* As a customer, I want to use the calculator to calculate the currency conversion */
 
 	@Test
 	public void testFXCalculatorSuccess() {
@@ -928,37 +964,7 @@ public class SeleniumIntTest {
 	}
 
 
-/*******************************************************************     New features tests     *********************************************************************/
-// New feature 1: Search Bar In Accounts Page Can Search Username
-
-	/* As a staff member, I want to look up accounts by filtering the Username */
-	@Test
-	public void FindAccountsByUsername() {
-
-		Stafflogin();
-
-		WebElement Appheader = driver.findElement(By.id("app-header"));
-		WebElement Headertabs = Appheader.findElement(By.id("header-tabs"));
-
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		// WebDriverWait wait3 = new WebDriverWait(driver, 10);
-		// wait3.until(ExpectedConditions.invisibilityOfElementLocated(By.id("entity-menu")));
-		Headertabs.findElement(By.id("entity-menu")).click();
-
-		driver.findElement(By.linkText("Accounts")).click();
-		WebElement SearchBar = driver.findElement(By.xpath("/html/body/div/div/div[2]/div[3]/div[1]/div/div/div/div[1]/input"));
-		
-		String Username = "jbutt";
-		SearchBar.sendKeys(Username);
-		
-		String ShowedAccountUsername = driver.findElement(By.xpath("/html/body/div/div/div[2]/div[3]/div[1]/div/div/div/div[2]/div/table/tbody/tr/td[5]")).getText();
-
-		assertEquals(Username, ShowedAccountUsername);
-	}
-
-// New feature 2: Customers can view the currency table in "Foreign Page"	
-
-
+/*******************************************************************     End tests     *********************************************************************/
 
 
 	@AfterEach
