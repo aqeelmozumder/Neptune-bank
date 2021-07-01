@@ -875,7 +875,7 @@ public class SeleniumIntTest {
 		int fromCurrencyIndex = 1; // USD
 		int toCurrencyIndex = 2; // CNY
 		String amount = "123.45";
-		String expectedCalculatedExchange = "803.19 CNY";
+		String expectedCalculatedExchange = "763.03 CNY";
 		Userlogin();
 		driver.findElement(By.linkText("Banking")).click();
 		driver.findElement(By.linkText("Foreign Exchange")).click();
@@ -896,8 +896,7 @@ public class SeleniumIntTest {
 		int fromCurrencyIndex = 1; // USD
 		int toCurrencyIndex = 2; // CNY
 		String amount = String.format("%f", Float.MAX_VALUE);
-		System.out.println(amount);
-		String expectedCalculatedExchange = "2.2139357614630207e+39 CNY";
+		String expectedCalculatedExchange = "2.1032389733898697e+39 CNY";
 		Userlogin();
 		driver.findElement(By.linkText("Banking")).click();
 		driver.findElement(By.linkText("Foreign Exchange")).click();

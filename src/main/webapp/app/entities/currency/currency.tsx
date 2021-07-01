@@ -14,10 +14,11 @@ export type IForeignCurrenciesState = IPaginationBaseState;
 const ForeignCurrencies = (props: IForeignCurrenciesProps) => {
   const [calculatedExchange, setCalculatedExchange] = useState(undefined);
   const calculateExchange = (event, errors, values) => {
+    const fee = 0.05;
     const fromRate = values.fromCurrency === 'CND' ? 1 : props.currencyList.find(c => c.currencyName === values.fromCurrency).exchangeRate;
     const toRate = values.toCurrency === 'CND' ? 1 : props.currencyList.find(c => c.currencyName === values.toCurrency).exchangeRate;
     const fromInCND = values.amount / fromRate;
-    const result = fromInCND * toRate;
+    const result = fromInCND * toRate * (1 - fee);
     setCalculatedExchange(`${result.toFixed(2)} ${values.toCurrency}`);
   };
 
